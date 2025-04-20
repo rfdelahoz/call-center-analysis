@@ -1,0 +1,6 @@
+format: jb-book
+root: intro
+chapters:
+  - file: notebooks/01_limpieza
+  - file: notebooks/02_analisis
+  

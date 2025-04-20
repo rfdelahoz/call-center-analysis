@@ -1,0 +1,12 @@
+title: "Análisis de Call Center"
+author: "Roberto De La Hoz"
+logo: "logo.jpg"
+
+execute:
+  execute_notebooks: auto
+
+parse:
+  myst_enable_extensions:
+    - "dollarmath"       # Permite $...$ y $$...$$
+    - "amsmath"          # Soporte para entornos de ecuaciones (align*, equation*, etc.)
+    - "colon_fence"      # Permite bloques ```{math}``` con sintaxis MyST
