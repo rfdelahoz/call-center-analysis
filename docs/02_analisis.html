@@ -1,0 +1,992 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>📊 2. Análisis Exploratorio &#8212; Análisis de Call Center</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/02_analisis';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="1. Extracción y Transformación de los Datos" href="01_limpieza.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.jpg" class="logo__image only-light" alt="Análisis de Call Center - Home"/>
+    <img src="../_static/logo.jpg" class="logo__image only-dark pst-js-only" alt="Análisis de Call Center - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Profesor: Roberto De La Hoz
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_limpieza.html">1. Extracción y Transformación de los Datos</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">📊 2. Análisis Exploratorio</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/02_analisis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>📊 2. Análisis Exploratorio</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargamos-nuestro-dataset">2.1 Cargamos nuestro dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estadisticas-del-dataframe">2.2 Estadísticas del Dataframe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-de-las-estadisticas">2.3 Resultados de las estadísticas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-visual-de-valores-extremos-con-diagramas-de-caja">2.4 Análisis visual de valores extremos con diagramas de caja</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diagrama-de-dispersion">2.4 Diagrama de dispersión</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coeficiente-de-correlacion">2.5 Coeficiente de correlación</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#valores-extremos">2.6 Valores extremos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-prueba-de-significancia-de-la-pendiente">2.7 La prueba de significancia de la pendiente</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nivel-de-confianza">Nivel de confianza</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#criterios-de-rechazo">Criterios de rechazo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recta-de-mejor-ajuste">Recta de mejor ajuste</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#errores">Errores</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estadistico">Estadístico</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados">Resultados</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-de-los-resultados">2.8 Interpretación de los resultados</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusiones">2.9 Conclusiones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recomendaciones-y-toma-de-desiciones">2.10 Recomendaciones y Toma de desiciones</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-exploratorio">
+<h1>📊 2. Análisis Exploratorio<a class="headerlink" href="#analisis-exploratorio" title="Link to this heading">#</a></h1>
+<section id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Link to this heading">#</a></h2>
+<p>En estadistica, existen cuatro conceptos fundamentales que cualquier persona que vaya realizar algún estudio estadistico, llamese: analista, científico de datos, ingeniero,etc, deberá tener en cuenta. Estos conceptos son: <strong>centro</strong>, <strong>variación</strong>, <strong>desviación</strong> y <strong>valores extremos</strong>.
+Estos cuatro conceptos hacen parte de un buen análisis exploratorio de datos. Además, asociaremos a estos 4 conceptos, la palabra <strong>Realizar estadística</strong>.
+Así que, un buen análisis exploratorio siempre lleva a descubrir cuál es el centro de los datos, cómo varían esos datos del centro, qué tanto se desvían del centro, y cómo podemos detectar valores extremos. En esta sección, utilizaremos algunas herramientas de visualización tales como diagramas de dispersión y de caja para poder analizar cómo se comportan nuestros datos y qué patrones podemos detectar.</p>
+<div class="tips admonition">
+<p class="admonition-title">Objetivos</p>
+<ul class="simple">
+<li><p>Realizar estadisticas con el conjunto de datos</p></li>
+<li><p>Identificar patrones en tiempos de espera vs el volumen de llamadas entrantes.</p></li>
+<li><p>Analizar si existe una tendencia lineal entre esas dos variables.</p></li>
+<li><p>Visualizar distribución mediante un analisis gráfico de dispersión</p></li>
+</ul>
+</div>
+</section>
+<section id="cargamos-nuestro-dataset">
+<h2>2.1 Cargamos nuestro dataset<a class="headerlink" href="#cargamos-nuestro-dataset" title="Link to this heading">#</a></h2>
+<p>Recordemos que nuestro dataframe lo habiamos guardado con el nombre <em>new_df</em>. Por lo tanto, lo llamamos con la función de pandas <em>pd.read_csv</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span> 
+
+<span class="c1">#Carga de nuetro dataset de estudio</span>
+
+
+<span class="c1"># Leer el archivo CSV</span>
+<span class="n">new_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;datos_call_center.csv&quot;</span><span class="p">)</span>
+<span class="n">new_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Llamadas entrantes</th>
+      <th>Tiempo de espera promedio (Segundos)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>217</td>
+      <td>165</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>200</td>
+      <td>415</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>216</td>
+      <td>230</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>155</td>
+      <td>192</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>37</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1223</th>
+      <td>191</td>
+      <td>116</td>
+    </tr>
+    <tr>
+      <th>1224</th>
+      <td>212</td>
+      <td>105</td>
+    </tr>
+    <tr>
+      <th>1225</th>
+      <td>210</td>
+      <td>232</td>
+    </tr>
+    <tr>
+      <th>1226</th>
+      <td>167</td>
+      <td>162</td>
+    </tr>
+    <tr>
+      <th>1227</th>
+      <td>12</td>
+      <td>58</td>
+    </tr>
+  </tbody>
+</table>
+<p>1228 rows × 2 columns</p>
+</div></div></div>
+</div>
+<section id="estadisticas-del-dataframe">
+<h3>2.2 Estadísticas del Dataframe<a class="headerlink" href="#estadisticas-del-dataframe" title="Link to this heading">#</a></h3>
+<p>El siguiente código nos permite ver los valores máximos y mínimos de las dos columna de nuestro dataframe, así como también su media, desviación estandar y sus repectivos cuartiles.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aplicar describe() y redondear a dos decimales</span>
+<span class="n">estadisticas</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">estadisticas</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       Llamadas entrantes  Tiempo de espera promedio (Segundos)
+count             1228.00                               1228.00
+mean               196.69                                228.07
+std                152.36                                179.56
+min                  5.00                                  3.00
+25%                122.75                                117.75
+50%                177.00                                182.00
+75%                233.00                                276.00
+max               1575.00                               1551.00
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="resultados-de-las-estadisticas">
+<h3>2.3 Resultados de las estadísticas<a class="headerlink" href="#resultados-de-las-estadisticas" title="Link to this heading">#</a></h3>
+<p>Observemos que el promedio de llamadas entrantes es de aproximadamente 197, el número de  llamadas entrantes se desvían en aproximadamente 152 llamadas del promedio de llamadas entrantes. Por otro lado, el promedio de tiempo de espera, (en segundos) es de 228 y tenemos una desviación del promedio de espera de aproximadamente de 180 segundos de espera.<br />
+Tenemos un máximo de 1575 llamadas y un máximo de espera de 1551 segundos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cuantiles básicos (25%, 50%, 75%) con describe()</span>
+<span class="c1"># Calcular los cuantiles para cada columna numérica</span>
+<span class="n">cuantiles</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cuantiles específicos (25%, 50%, 75%):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cuantiles</span><span class="p">)</span>
+<span class="c1"># Calcular IQR (Rango Intercuartílico)</span>
+<span class="n">Q1</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">Q3</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
+
+<span class="c1"># Identificar outliers inferiores y superiores</span>
+<span class="n">outliers_superiores</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[(</span><span class="n">new_df</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span><span class="p">))</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">outliers_inferiores</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[(</span><span class="n">new_df</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span><span class="p">))</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valores extremos superiores:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">outliers_superiores</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valores extremos inferiores:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">outliers_inferiores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cuantiles específicos (25%, 50%, 75%):
+      Llamadas entrantes  Tiempo de espera promedio (Segundos)
+0.25              122.75                                117.75
+0.50              177.00                                182.00
+0.75              233.00                                276.00
+Valores extremos superiores:
+      Llamadas entrantes  Tiempo de espera promedio (Segundos)
+41                   137                                   587
+183                  483                                   525
+184                  547                                   234
+221                  414                                   332
+234                  229                                   639
+...                  ...                                   ...
+1106                 452                                   232
+1125                 424                                   221
+1171                 627                                   320
+1173                 599                                   290
+1207                 203                                   514
+
+[110 rows x 2 columns]
+Valores extremos inferiores:
+Empty DataFrame
+Columns: [Llamadas entrantes, Tiempo de espera promedio (Segundos)]
+Index: []
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="analisis-visual-de-valores-extremos-con-diagramas-de-caja">
+<h3>2.4 Análisis visual de valores extremos con diagramas de caja<a class="headerlink" href="#analisis-visual-de-valores-extremos-con-diagramas-de-caja" title="Link to this heading">#</a></h3>
+<p>Los diagramas de cajas, son una herramienta esencial en cualquier análisis exploratorio de datos. Ellos nos permiten visualizar hacia donde se centran los datos, el nivel de su desviación y qué tan alejados están algunos datos del promedio.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="s2">&quot;Tiempo de espera promedio (Segundos)&quot;</span><span class="p">]</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="s2">&quot;Llamadas entrantes&quot;</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Análisis de Valores extremos&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">)</span>
+
+<span class="c1"># Configurar etiquetas de los ejes Y el  tamaño de fuente</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Segundos&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>  
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Cantidad&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+<span class="c1"># Configurar tamaño de los números del eje Y</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>  
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="c1"># Crear los boxplots</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Tiempo de espera&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Llamadas&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+
+<span class="n">box1</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">patch_artist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  
+<span class="n">box2</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">patch_artist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">box1</span><span class="p">[</span><span class="s1">&#39;boxes&#39;</span><span class="p">]:</span>
+    <span class="n">box</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s2">&quot;lightblue&quot;</span><span class="p">)</span>  <span class="c1"># Color para el primer gráfico</span>
+
+<span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">box2</span><span class="p">[</span><span class="s1">&#39;boxes&#39;</span><span class="p">]:</span>
+    <span class="n">box</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">)</span>  <span class="c1"># Color para el segundo gráfico</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/010e1f7d9cc3ffcca3686ee6da9b5b3c5336b37a03f27efd9ea65d904a75ced9.png" src="../_images/010e1f7d9cc3ffcca3686ee6da9b5b3c5336b37a03f27efd9ea65d904a75ced9.png" />
+</div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Observación</p>
+<p>Note que en los graficos de caja y bigote que se muestran, hay una cantidad considerable de <strong>valores extremos</strong> ; sin embargo, en el contexto de los call center, esto es un fenomeno común debido al factor de otras variables no controlables, como la caida del sistema, el tamaño del call center y el tipo de servicio que se presta el call center. Por ejemplo: en <strong>soporte técnico</strong> es comúm tener un flujo de llamadas bastante alto.</p>
+</div>
+</section>
+<section id="diagrama-de-dispersion">
+<h3>2.4 Diagrama de dispersión<a class="headerlink" href="#diagrama-de-dispersion" title="Link to this heading">#</a></h3>
+<p>El diagrama de dispersión nos permite ver relaciones y detectar algunos <strong>patrones</strong> entre las dos variables. En este estudio tomaremos como</p>
+<ul class="simple">
+<li><p>variable independiente <span class="math notranslate nohighlight">\(X =\)</span> <strong>Número de llamadas entrantes</strong></p></li>
+<li><p>Variable dependiente <span class="math notranslate nohighlight">\(Y=\)</span> <strong>Tiempo de espera promedio (Segundos)</strong></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Asumiendo que tus datos están en new_df</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="s2">&quot;Llamadas entrantes&quot;</span><span class="p">]</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="s2">&quot;Tiempo de espera promedio (Segundos)&quot;</span><span class="p">]</span>
+
+<span class="c1"># Crear el gráfico de dispersión con regresión lineal</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y1</span><span class="p">,</span> <span class="n">scatter_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="s1">&#39;edgecolor&#39;</span><span class="p">:</span><span class="s1">&#39;black&#39;</span><span class="p">},</span> <span class="n">line_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">})</span>
+
+<span class="c1"># Personalizar el gráfico</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Relación entre Llamadas entrantes y Tiempo de espera promedio&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Llamadas entrantes&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Tiempo de espera promedio (Segundos)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+
+<span class="c1"># Mostrar el gráfico</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dc0559ede22c0515f2fc0381aa1fa94e09b2f5d9ffba58f26ada3dceeceac7c1.png" src="../_images/dc0559ede22c0515f2fc0381aa1fa94e09b2f5d9ffba58f26ada3dceeceac7c1.png" />
+</div>
+</div>
+<p>Del gráfico anterior, podemos observar algún patrón o tendencia lineal positiva. Es decir, una tendencia lineal creciente.  Sin embargo, necesitamos cuantificar y medir este patrón, lo cuál se hará con una medida muy conocida, llamada:  <strong>coeficiente de correlación lineal</strong>.</p>
+</section>
+<section id="coeficiente-de-correlacion">
+<h3>2.5 Coeficiente de correlación<a class="headerlink" href="#coeficiente-de-correlacion" title="Link to this heading">#</a></h3>
+<p>Necesitamos medir la <strong>fuerza</strong>  de relación que existe entre nuestras variables de estudio. Por lo tanto, una manera de medir dicha fuerza, es utilizando el <strong>coeficiente de correlación</strong>. Esta fuerza, puede medirse en la siguientes escalas no negativas:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(0&lt; r \leq 0.3\)</span> <strong>Correlación débil o nula</strong></p></li>
+<li><p><span class="math notranslate nohighlight">\( 0.3 &lt; r &lt; 0.7\)</span> <strong>Correlación moderada</strong></p></li>
+<li><p><span class="math notranslate nohighlight">\(0.7 \leq r \leq 1\)</span> <strong>Correlación fuerte</strong></p></li>
+</ul>
+<p>El siguiente código nos permite hallar el coeficiente de correlación entre <span class="math notranslate nohighlight">\(X\)</span> y <span class="math notranslate nohighlight">\(Y\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">correlacion</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="s2">&quot;Llamadas entrantes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">new_df</span><span class="p">[</span><span class="s2">&quot;Tiempo de espera promedio (Segundos)&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Correlación: </span><span class="si">{</span><span class="n">correlacion</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Si &gt; 0.7, relación fuerte.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correlación: 0.60
+</pre></div>
+</div>
+</div>
+</div>
+<p>Como podemos observar en el resultado anterior, el coeficiente de correlación <span class="math notranslate nohighlight">\(r\)</span> es de <span class="math notranslate nohighlight">\(0.6\)</span> lo que indica un grado de correlación moderada.</p>
+</section>
+<section id="valores-extremos">
+<h3>2.6 Valores extremos<a class="headerlink" href="#valores-extremos" title="Link to this heading">#</a></h3>
+<p>El siguiente código nos permite visualizar más clararamente, una separación entre colores azul claro y amarillo los cuales representan <strong>valores normales</strong> y <strong>valores extremos</strong> respectivamente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Calcular los cuantiles y el rango intercuartílico (IQR)</span>
+<span class="n">Q1</span> <span class="o">=</span> <span class="n">x1</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">Q3</span> <span class="o">=</span> <span class="n">x1</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
+
+<span class="c1"># Identificar outliers (fuera del rango [Q1 - 1.5*IQR, Q3 + 1.5*IQR])</span>
+<span class="n">outliers</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">x1</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span><span class="p">))</span>
+
+<span class="c1"># Crear el gráfico</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Graficar los datos normales (no outliers) en cian</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="o">~</span><span class="n">outliers</span><span class="p">],</span> <span class="n">y1</span><span class="p">[</span><span class="o">~</span><span class="n">outliers</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Datos normales&quot;</span><span class="p">)</span>
+
+<span class="c1"># Graficar los outliers en naranja</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="n">outliers</span><span class="p">],</span> <span class="n">y1</span><span class="p">[</span><span class="n">outliers</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Valores extremos&quot;</span><span class="p">)</span>
+
+<span class="c1"># Agregar una línea de tendencia (opcional)</span>
+
+
+<span class="c1"># Configurar el gráfico</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Identificación de valores extremos&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Llamadas entrantes&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Tiempo de espera&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+
+<span class="c1"># Mostrar el gráfico</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/108ea75e9b24514c6a4beffc302eef1cc3602abc9f5cffab5412ea977a0854ae.png" src="../_images/108ea75e9b24514c6a4beffc302eef1cc3602abc9f5cffab5412ea977a0854ae.png" />
+</div>
+</div>
+<div class="warning admonition">
+<p class="admonition-title">Para tener en cuenta</p>
+<p>Del gráfico anterior, podriamos hacernos la siguiente  pregunta: ¿Debería preocuparnos los valores extremos?. La respuesta a esta pregunta, está influenciada por algunos factores a tomar en cuenta, tales como: el contexto de estudio, el tamaño del call-center, horas pico, promociones en días de campaña. Sin embargo, de la observación anterior podemos notar que si los valores extremos siguen la misma tendencia al conjunto de datos normales, entonces no será necesario considerarlos como <strong>errores</strong>, ya que podrían aportarnos información valiosa.</p>
+</div>
+</section>
+<section id="la-prueba-de-significancia-de-la-pendiente">
+<h3>2.7 La prueba de significancia de la pendiente<a class="headerlink" href="#la-prueba-de-significancia-de-la-pendiente" title="Link to this heading">#</a></h3>
+<p>Antes de hacer la prueba de la significancia, debemos definir lo que significa una relación lineal entre dos variables.</p>
+<p><strong>Definición</strong>
+Se dice que existe una regresión lineal entre dos variables continuas <span class="math notranslate nohighlight">\(X\)</span> y <span class="math notranslate nohighlight">\(Y\)</span> si existen constantes <span class="math notranslate nohighlight">\(\beta_{1}\)</span> y <span class="math notranslate nohighlight">\(\beta_{0}\)</span> tales que:</p>
+<div class="my-math math notranslate nohighlight">
+\[  Y= \beta_{1}X+ \beta_{0}  \]</div>
+<p>Por lo tanto, el objetivo de nuestro estudio  de la relación lineal entre <span class="math notranslate nohighlight">\(X\)</span> y <span class="math notranslate nohighlight">\(Y\)</span> se reduciría al de  probar las siguientes hipótesis de una cola:</p>
+<div class="my-math math notranslate nohighlight">
+\[\begin{split}  H_{0}:  \beta_{1} =0  \\ 
+  H_{1}: \beta_{1} &gt; 0 \end{split}\]</div>
+<p>donde</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(H_{0}:\beta_{1}=0\)</span> significa que <strong>no existe relación lineal</strong> entre <span class="math notranslate nohighlight">\(X\)</span> y <span class="math notranslate nohighlight">\(Y\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(H_{1}:\beta_{1}&gt;0\)</span> significa <strong>existe una relación lineal positiva</strong> entre <span class="math notranslate nohighlight">\(X\)</span> e <span class="math notranslate nohighlight">\(Y\)</span>.</p></li>
+</ul>
+<p>Para la prueba estadistica, usamos el estadistico <span class="math notranslate nohighlight">\( t=  \frac{\beta_{1}}{S_{\beta_{1}}}\)</span>, que sigue una distribución t-student con <span class="math notranslate nohighlight">\(n-2\)</span> grados de libertad,  donde:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S_{\beta_{1}}= \frac{s}{\sqrt{S_{xx}}}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(s = \sqrt{\frac{\sum_{i=1}^{n}(y_{i}-\widehat{y_{i}})}{n-2}}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(SS_{xx} = n\sum_{i=1}^{n}x_{i}^{2} - (\sum_{i=1}^{n}x_{i})^{2}\)</span></p></li>
+</ul>
+<p>Ya que la muestra es suficientemente grande, <span class="math notranslate nohighlight">\(n=1228 &gt; 30\)</span>, la distribución del estadistico <span class="math notranslate nohighlight">\(t\)</span> puede aproximarse a una distribución normal. Por lo tanto, para <span class="math notranslate nohighlight">\(n&gt;30\)</span>, tenemos que <span class="math notranslate nohighlight">\(t_{\alpha , n-2}\)</span> <span class="math notranslate nohighlight">\(\thickapprox  z_{\alpha}\)</span>.</p>
+</section>
+<section id="nivel-de-confianza">
+<h3>Nivel de confianza<a class="headerlink" href="#nivel-de-confianza" title="Link to this heading">#</a></h3>
+<p>Para un nivel de confianza del 95%, elegimos <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span></p>
+</section>
+<section id="criterios-de-rechazo">
+<h3>Criterios de rechazo<a class="headerlink" href="#criterios-de-rechazo" title="Link to this heading">#</a></h3>
+<p>La hipótesis nula, <span class="math notranslate nohighlight">\(H_{0}\)</span> se rechaza si el valor <span class="math notranslate nohighlight">\(p &lt; 0.05 \)</span> y el estadistico <span class="math notranslate nohighlight">\(t\)</span> es positivo o tenemos <span class="math notranslate nohighlight">\(t &gt; z_{0.05}\)</span>.</p>
+</section>
+<section id="recta-de-mejor-ajuste">
+<h3>Recta de mejor ajuste<a class="headerlink" href="#recta-de-mejor-ajuste" title="Link to this heading">#</a></h3>
+<p>De la libreria <em>scipy</em> buscamos un modelo de regresión lineal simple y ajustamos el modelo a los datos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">t</span>
+
+<span class="c1"># </span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="s2">&quot;Llamadas entrantes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># Variable independiente</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="s2">&quot;Tiempo de espera promedio (Segundos)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># Variable dependiente</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>  <span class="c1"># Tamaño de la muestra (1228)</span>
+
+<span class="c1"># 1. Ajustar el modelo de regresión lineal</span>
+<span class="n">beta1</span><span class="p">,</span> <span class="n">beta0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># beta1 = pendiente, beta0 = intercepto</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="errores">
+<h3>Errores<a class="headerlink" href="#errores" title="Link to this heading">#</a></h3>
+<p>Calculamos los diferentes errores <span class="math notranslate nohighlight">\(s\)</span>, <span class="math notranslate nohighlight">\(SSE\)</span>, <span class="math notranslate nohighlight">\(SS_{xx}\)</span> y <span class="math notranslate nohighlight">\(S_{\beta_{1}}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Calculamos SSxx (Suma de Cuadrados de X)</span>
+<span class="n">x_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+<span class="n">SSxx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x_mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># ¡Notación corregida!</span>
+
+<span class="c1"># 3. Calculamos residuos y Suma de Cuadrados de los Errores (SSE)</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x1</span>
+<span class="n">residuos</span> <span class="o">=</span> <span class="n">y1</span><span class="o">-</span> <span class="n">y_hat</span>
+<span class="n">SSE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">residuos</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Suma de cuadrados de los residuos</span>
+
+<span class="c1"># 4. Error estándar de los residuos (s)</span>
+<span class="n">s_squared</span> <span class="o">=</span> <span class="n">SSE</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Varianza residual</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s_squared</span><span class="p">)</span>  <span class="c1"># Error estándar de estimación</span>
+
+<span class="c1"># 5. Error estándar de la pendiente (SE_beta1)</span>
+<span class="n">SE_beta1</span> <span class="o">=</span> <span class="n">s</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">SSxx</span><span class="p">)</span>  <span class="c1"># Usando SSxx</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="estadistico">
+<h3>Estadístico<a class="headerlink" href="#estadistico" title="Link to this heading">#</a></h3>
+<p>Hallamos el estadistico <span class="math notranslate nohighlight">\(t\)</span> de una sola cola e imprimimos los resultados.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 6. Estadístico t y p-valor</span>
+<span class="n">t_estadistico</span> <span class="o">=</span> <span class="n">beta1</span> <span class="o">/</span> <span class="n">SE_beta1</span>
+<span class="n">p_valor_unilateral</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">t_estadistico</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Solo cola derecha</span>
+
+<span class="c1"># Resultados</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pendiente (β1): </span><span class="si">{</span><span class="n">beta1</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SSxx: </span><span class="si">{</span><span class="n">SSxx</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># </span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error estándar de los residuos (s): </span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error estándar de la pendiente (SE_β1): </span><span class="si">{</span><span class="n">SE_beta1</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estadístico t: </span><span class="si">{</span><span class="n">t_estadistico</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p-valor: </span><span class="si">{</span><span class="n">p_valor_unilateral</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pendiente (β1): 0.7040
+SSxx: 28484736.8730
+Error estándar de los residuos (s): 144.0668
+Error estándar de la pendiente (SE_β1): 0.0270
+Estadístico t: 26.0797
+p-valor: 0.0000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="resultados">
+<h3>Resultados<a class="headerlink" href="#resultados" title="Link to this heading">#</a></h3>
+<p>De los cálculos anteriores tenemos que:</p>
+<ul class="simple">
+<li><p>El estadistico <span class="math notranslate nohighlight">\(t=26.07 &gt; z_{0.05} = 1.641\)</span></p></li>
+<li><p>El valor <span class="math notranslate nohighlight">\(p &lt; 0.05\)</span></p></li>
+</ul>
+<p>Por lo tanto, rechazamos la hipótesis nula y concluimos que si hay significancia en la pendiente <span class="math notranslate nohighlight">\(\beta_{1}\)</span>.</p>
+</section>
+<section id="interpretacion-de-los-resultados">
+<h3>2.8 Interpretación de los resultados<a class="headerlink" href="#interpretacion-de-los-resultados" title="Link to this heading">#</a></h3>
+<p>Del análisis anterior, observe que la pendiente <span class="math notranslate nohighlight">\(\beta_{1}\)</span> es estadisticamente <strong>significativa</strong> (0.70), por lo que, sí existe una relación lineal positiva entre las variables. Sin embargo, observe que el coeficiente de <span class="math notranslate nohighlight">\(R^{2}\)</span>  es de 0.36, lo que significa que nada más el 36% de la variación lineal de <span class="math notranslate nohighlight">\(Y\)</span> está explicada por la relación lineal entre <span class="math notranslate nohighlight">\(X\)</span> y <span class="math notranslate nohighlight">\(Y\)</span>. Es decir, solo el 36% puede ser explicado por dicha relación, y el otro 64% se debe a la influencia de otros factores o variables no considerados.</p>
+<div class="warning admonition">
+<p class="admonition-title">Advertencia</p>
+<p>La correlación no implica causalidad. Es decir, la ocurrencia de una no implica necesariamnte la causa de la otra. Y esto se demuestra en la interpretación de los resultados, donde la proporción lineal explicada  es apenas del 36%. Es decir, el 64% restante que no es explicado por la relación lineal entre el número de llamadas y el tiempo de espera, viene explicado por otras variables que no se consideraron en el estudio.</p>
+</div>
+</section>
+<section id="conclusiones">
+<h3>2.9 Conclusiones<a class="headerlink" href="#conclusiones" title="Link to this heading">#</a></h3>
+<p>La correlación lineal mostrada <span class="math notranslate nohighlight">\(r=0.6\)</span>, indica que hay una relación lineal moderada positiva entre el número de llamadas y el tiempo de espera. Lo que significa que a mayor número de llamadas, posiblemente aumente el tiempo de espera del cliente.</p>
+<p>El (<span class="math notranslate nohighlight">\(R^2 = 0.36\)</span>) muestra que el modelo captura el 36% de la variabilidad en el tiempo de espera promedio. Esto indica que, aunque el volumen de llamadas influye en los tiempos de espera, hay otros factores no incluidos en el análisis que afectan este indicador</p>
+</section>
+<section id="recomendaciones-y-toma-de-desiciones">
+<h3>2.10 Recomendaciones y Toma de desiciones<a class="headerlink" href="#recomendaciones-y-toma-de-desiciones" title="Link to this heading">#</a></h3>
+<div class="hint admonition">
+<p class="admonition-title"><strong>Importante</strong></p>
+<ul class="simple">
+<li><p>Implementar estrategias para manejar los períodos de alta demanda, como ajustar la cantidad de operadores disponibles durante estas horas. Esto podría ayudar a reducir el impacto de las llamadas entrantes en el tiempo de espera promedio.</p></li>
+<li><p>Realizar auditorías en los procedimientos operativos para identificar áreas de mejora, especialmente en los períodos de alta demanda, donde la heterocedasticidad sugiere mayor variabilidad en el tiempo de espera.</p></li>
+<li><p>Capacitar a los agentes para manejar eficientemente las llamadas y utilizar tecnologías avanzadas, como sistemas predictivos de enrutamiento, para mejorar la velocidad de atención y optimizar recursos.</p></li>
+<li><p>Implementar un sistema de monitoreo regular para evaluar cómo las variables externas (como campañas publicitarias o eventos estacionales) afectan las métricas del call center. Esto permitirá ajustes proactivos.</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_limpieza.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">1. Extracción y Transformación de los Datos</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargamos-nuestro-dataset">2.1 Cargamos nuestro dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estadisticas-del-dataframe">2.2 Estadísticas del Dataframe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados-de-las-estadisticas">2.3 Resultados de las estadísticas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-visual-de-valores-extremos-con-diagramas-de-caja">2.4 Análisis visual de valores extremos con diagramas de caja</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diagrama-de-dispersion">2.4 Diagrama de dispersión</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coeficiente-de-correlacion">2.5 Coeficiente de correlación</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#valores-extremos">2.6 Valores extremos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-prueba-de-significancia-de-la-pendiente">2.7 La prueba de significancia de la pendiente</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nivel-de-confianza">Nivel de confianza</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#criterios-de-rechazo">Criterios de rechazo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recta-de-mejor-ajuste">Recta de mejor ajuste</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#errores">Errores</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estadistico">Estadístico</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados">Resultados</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-de-los-resultados">2.8 Interpretación de los resultados</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusiones">2.9 Conclusiones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recomendaciones-y-toma-de-desiciones">2.10 Recomendaciones y Toma de desiciones</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto De La Hoz
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

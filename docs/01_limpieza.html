@@ -1,0 +1,1081 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1. Extracción y Transformación de los Datos &#8212; Análisis de Call Center</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/01_limpieza';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="📊 2. Análisis Exploratorio" href="02_analisis.html" />
+    <link rel="prev" title="Profesor: Roberto De La Hoz" href="../intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.jpg" class="logo__image only-light" alt="Análisis de Call Center - Home"/>
+    <img src="../_static/logo.jpg" class="logo__image only-dark pst-js-only" alt="Análisis de Call Center - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Profesor: Roberto De La Hoz
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Extracción y Transformación de los Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_analisis.html">📊 2. Análisis Exploratorio</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/01_limpieza.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1. Extracción y Transformación de los Datos</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-del-datset">1.1 Carga del Datset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminacion-de-columnas-irrelevantes-conversion-de-datos-de-algunas-columnas">1.2 Eliminación de columnas irrelevantes, conversión de datos de algunas columnas.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creamos-un-nuevo-dataset-con-las-columnas-que-nos-interesa-estudiar">1.3 Creamos un nuevo dataset con las columnas que nos interesa estudiar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renombramos-las-columnas-de-nuestro-nuevo-dataframe">1.4 Renombramos las columnas de nuestro nuevo dataframe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminacion-de-filas-duplicadas">1.5 Eliminación de filas duplicadas</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="extraccion-y-transformacion-de-los-datos">
+<h1>1. Extracción y Transformación de los Datos<a class="headerlink" href="#extraccion-y-transformacion-de-los-datos" title="Link to this heading">#</a></h1>
+<section id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Link to this heading">#</a></h2>
+<p>Antes de realizar cualquier análisis estadístico, es necesario ver la calidad y condición de nuestro datos. Es decir, qué tan <strong>sucio</strong> viene nuestro conjunto de datos. Por  <strong>sucio</strong> nos referimos simplemente a que pueden haber datos inconsistentes, datos duplicados, errores tipográficos o valores faltantes en nuestro conjunto de datos. Por lo tanto, se hace necesario una <strong>transformación</strong> y <strong>limpieza</strong> de nuestros datos, antes de realizar y aplicar cualquier modelo estadístico.<br />
+Para ello, importamos las librerias que nos ayudaran con el manejo y tratamiento de los datos las cuales son <strong>pandas</strong> y <strong>numpy</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="carga-del-datset">
+<h2>1.1 Carga del Datset<a class="headerlink" href="#carga-del-datset" title="Link to this heading">#</a></h2>
+<p>Utilizamos la función de pandas <em>pd.read_csv()</em> para leer y cargar nuestro data set.  Además utilizamos el metodo <em>.info()</em> , para ver la naturaleza de nuestro dataframe, o si existen columnas o con datos faltantes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">Users</span><span class="se">\\</span><span class="s2">robe3358</span><span class="se">\\</span><span class="s2">OneDrive</span><span class="se">\\</span><span class="s2">Desktop</span><span class="se">\\</span><span class="s2">call-center-analysis</span><span class="se">\\</span><span class="s2">data</span><span class="se">\\</span><span class="s2">Call Center Data.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 1251 entries, 0 to 1250
+Data columns (total 9 columns):
+ #   Column                      Non-Null Count  Dtype 
+---  ------                      --------------  ----- 
+ 0   Index                       1251 non-null   int64 
+ 1   Incoming Calls              1251 non-null   int64 
+ 2   Answered Calls              1251 non-null   int64 
+ 3   Answer Rate                 1251 non-null   object
+ 4   Abandoned Calls             1251 non-null   int64 
+ 5   Answer Speed (AVG)          1251 non-null   object
+ 6   Talk Duration (AVG)         1251 non-null   object
+ 7   Waiting Time (AVG)          1251 non-null   object
+ 8   Service Level (20 Seconds)  1251 non-null   object
+dtypes: int64(4), object(5)
+memory usage: 88.1+ KB
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Index</th>
+      <th>Incoming Calls</th>
+      <th>Answered Calls</th>
+      <th>Answer Rate</th>
+      <th>Abandoned Calls</th>
+      <th>Answer Speed (AVG)</th>
+      <th>Talk Duration (AVG)</th>
+      <th>Waiting Time (AVG)</th>
+      <th>Service Level (20 Seconds)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>217</td>
+      <td>204</td>
+      <td>94.01%</td>
+      <td>13</td>
+      <td>0:00:17</td>
+      <td>0:02:14</td>
+      <td>0:02:45</td>
+      <td>76.28%</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>200</td>
+      <td>182</td>
+      <td>91.00%</td>
+      <td>18</td>
+      <td>0:00:20</td>
+      <td>0:02:22</td>
+      <td>0:06:55</td>
+      <td>72.73%</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>216</td>
+      <td>198</td>
+      <td>91.67%</td>
+      <td>18</td>
+      <td>0:00:18</td>
+      <td>0:02:38</td>
+      <td>0:03:50</td>
+      <td>74.30%</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>155</td>
+      <td>145</td>
+      <td>93.55%</td>
+      <td>10</td>
+      <td>0:00:15</td>
+      <td>0:02:29</td>
+      <td>0:03:12</td>
+      <td>79.61%</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>37</td>
+      <td>37</td>
+      <td>100.00%</td>
+      <td>0</td>
+      <td>0:00:03</td>
+      <td>0:02:06</td>
+      <td>0:00:35</td>
+      <td>97.30%</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1246</th>
+      <td>1247</td>
+      <td>191</td>
+      <td>184</td>
+      <td>96.34%</td>
+      <td>7</td>
+      <td>0:00:07</td>
+      <td>0:02:50</td>
+      <td>0:01:56</td>
+      <td>92.55%</td>
+    </tr>
+    <tr>
+      <th>1247</th>
+      <td>1248</td>
+      <td>212</td>
+      <td>209</td>
+      <td>98.58%</td>
+      <td>3</td>
+      <td>0:00:10</td>
+      <td>0:02:51</td>
+      <td>0:01:45</td>
+      <td>89.10%</td>
+    </tr>
+    <tr>
+      <th>1248</th>
+      <td>1249</td>
+      <td>210</td>
+      <td>203</td>
+      <td>96.67%</td>
+      <td>7</td>
+      <td>0:00:12</td>
+      <td>0:03:22</td>
+      <td>0:03:52</td>
+      <td>85.24%</td>
+    </tr>
+    <tr>
+      <th>1249</th>
+      <td>1250</td>
+      <td>167</td>
+      <td>159</td>
+      <td>95.21%</td>
+      <td>8</td>
+      <td>0:00:16</td>
+      <td>0:03:16</td>
+      <td>0:02:42</td>
+      <td>83.03%</td>
+    </tr>
+    <tr>
+      <th>1250</th>
+      <td>1251</td>
+      <td>12</td>
+      <td>11</td>
+      <td>91.67%</td>
+      <td>1</td>
+      <td>0:00:03</td>
+      <td>0:02:12</td>
+      <td>0:00:58</td>
+      <td>91.67%</td>
+    </tr>
+  </tbody>
+</table>
+<p>1251 rows × 9 columns</p>
+</div></div></div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">observación</p>
+<p>Note que no hay elementos faltantes en nuestro dataset, ya que todos los campos tienen el mismo número de registros</p>
+</div>
+<section id="eliminacion-de-columnas-irrelevantes-conversion-de-datos-de-algunas-columnas">
+<h3>1.2 Eliminación de columnas irrelevantes, conversión de datos de algunas columnas.<a class="headerlink" href="#eliminacion-de-columnas-irrelevantes-conversion-de-datos-de-algunas-columnas" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Eliminamos las columnas index y todas las que no son relevantes para el análisis.</p></li>
+<li><p>Limpiar columnas de porcentaje.</p></li>
+<li><p>Convertimos tiempo de espera a segundos.</p></li>
+<li><p>Validar consistencia en las llamadas:  llamadas atendidas + llamadas abandonadas = llamadas entrantes.</p></li>
+<li><p>Filtrar filas con tasa de abandono de más del 50%.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Limpiar columnas de porcentaje</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Answer Rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Answer Rate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;%&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Service Level (20 Seconds)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Service Level (20 Seconds)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;%&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># 2. Convertir tiempos a segundos</span>
+<span class="k">def</span> <span class="nf">time_to_seconds</span><span class="p">(</span><span class="n">time_str</span><span class="p">):</span>
+    <span class="n">h</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">time_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">h</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="n">s</span>
+
+<span class="n">time_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Answer Speed (AVG)&quot;</span><span class="p">,</span> <span class="s2">&quot;Talk Duration (AVG)&quot;</span><span class="p">,</span> <span class="s2">&quot;Waiting Time (AVG)&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">time_columns</span><span class="p">:</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="s2">&quot;_seconds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">time_to_seconds</span><span class="p">)</span>
+
+<span class="c1"># 3. Validar consistencia en llamadas</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Validation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Answered Calls&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Abandoned Calls&quot;</span><span class="p">]</span>
+<span class="n">inconsistent_rows</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Validation&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Incoming Calls&quot;</span><span class="p">]]</span>
+
+<span class="c1"># 4. Eliminar columna Index </span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Index&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># 5. Filtrar valores atípicos (ejemplo: filas con tasa de abandono &gt; 50%)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Abandoned Calls&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Incoming Calls&quot;</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mf">0.5</span><span class="p">]</span>
+
+<span class="c1"># Mostrar resumen de limpieza</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filas inconsistentes encontradas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">inconsistent_rows</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datos después de limpieza: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> filas&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Filas inconsistentes encontradas: 0
+Datos después de limpieza: 1243 filas
+</pre></div>
+</div>
+</div>
+</div>
+<p>Observemos que despues de ir transformando nuestros datos y elimininado algunos datos atípicos, el tamaño de nuestro dataset va disminuyendo. Antes teníamos 1251 registros de los cuales ahora solo tenemos 1243.</p>
+</section>
+<section id="creamos-un-nuevo-dataset-con-las-columnas-que-nos-interesa-estudiar">
+<h3>1.3 Creamos un nuevo dataset con las columnas que nos interesa estudiar<a class="headerlink" href="#creamos-un-nuevo-dataset-con-las-columnas-que-nos-interesa-estudiar" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Las relaciones que nos interesa estudiar son : <strong>LLamadas Entrantes</strong> y <strong>Tiempo de espera</strong>. Por lo tanto, creamos un nuevo dataframe con estas dos columnas con el metodo <em>.copy().</em></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Incoming Calls&quot;</span><span class="p">,</span> <span class="s2">&quot;Waiting Time (AVG)_seconds&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> 
+<span class="n">new_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Incoming Calls</th>
+      <th>Waiting Time (AVG)_seconds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>217</td>
+      <td>165</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>200</td>
+      <td>415</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>216</td>
+      <td>230</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>155</td>
+      <td>192</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>37</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1246</th>
+      <td>191</td>
+      <td>116</td>
+    </tr>
+    <tr>
+      <th>1247</th>
+      <td>212</td>
+      <td>105</td>
+    </tr>
+    <tr>
+      <th>1248</th>
+      <td>210</td>
+      <td>232</td>
+    </tr>
+    <tr>
+      <th>1249</th>
+      <td>167</td>
+      <td>162</td>
+    </tr>
+    <tr>
+      <th>1250</th>
+      <td>12</td>
+      <td>58</td>
+    </tr>
+  </tbody>
+</table>
+<p>1243 rows × 2 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="renombramos-las-columnas-de-nuestro-nuevo-dataframe">
+<h3>1.4 Renombramos las columnas de nuestro nuevo dataframe<a class="headerlink" href="#renombramos-las-columnas-de-nuestro-nuevo-dataframe" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_df</span><span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Incoming Calls&quot;</span> <span class="p">:</span> <span class="s2">&quot;Llamadas entrantes&quot;</span><span class="p">,</span> <span class="s2">&quot;Waiting Time (AVG)_seconds&quot;</span><span class="p">:</span> <span class="s2">&quot;Tiempo de espera promedio (Segundos)&quot;</span><span class="p">})</span>
+<span class="n">new_df</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Llamadas entrantes</th>
+      <th>Tiempo de espera promedio (Segundos)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>217</td>
+      <td>165</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>200</td>
+      <td>415</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>216</td>
+      <td>230</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>155</td>
+      <td>192</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>37</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1246</th>
+      <td>191</td>
+      <td>116</td>
+    </tr>
+    <tr>
+      <th>1247</th>
+      <td>212</td>
+      <td>105</td>
+    </tr>
+    <tr>
+      <th>1248</th>
+      <td>210</td>
+      <td>232</td>
+    </tr>
+    <tr>
+      <th>1249</th>
+      <td>167</td>
+      <td>162</td>
+    </tr>
+    <tr>
+      <th>1250</th>
+      <td>12</td>
+      <td>58</td>
+    </tr>
+  </tbody>
+</table>
+<p>1243 rows × 2 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="id1">
+<h3><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+</section>
+<section id="eliminacion-de-filas-duplicadas">
+<h3>1.5 Eliminación de filas duplicadas<a class="headerlink" href="#eliminacion-de-filas-duplicadas" title="Link to this heading">#</a></h3>
+<p>Debemos verificar si nuestro nuevo dataframe tiene filas duplicadas. Python tiene dos métodos para verificar la existencia de duplicados, uno de ellos es el método <em>.any()</em> que nos arroja un valor booleano. También Lo podemos verificar  con el método <em>.duplicated()</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificamos si hay duplicados</span>
+<span class="n">hay_duplicados</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;¿Hay duplicados?&quot;</span><span class="p">,</span> <span class="n">hay_duplicados</span><span class="o">.</span><span class="n">any</span><span class="p">())</span>
+
+<span class="c1"># Mostramos las filas duplicadas</span>
+<span class="n">filas_duplicadas</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="n">new_df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Filas duplicadas:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">filas_duplicadas</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>¿Hay duplicados? True
+Filas duplicadas:
+      Llamadas entrantes  Tiempo de espera promedio (Segundos)
+99                   226                                   165
+228                   36                                    91
+261                   21                                    58
+462                  139                                   183
+563                  158                                   220
+565                  151                                   338
+585                   25                                    55
+642                  155                                   138
+710                  166                                   165
+720                  167                                   169
+721                  169                                   104
+744                  192                                   220
+1075                 150                                   131
+1138                  30                                    46
+1227                 185                                   153
+</pre></div>
+</div>
+</div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Observación</p>
+<p>Debido a que existen 15 registros repetidos, procedemos a eliminarlos con el método  .drop_duplicates().</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_df</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">new_df</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">new_df</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Llamadas entrantes</th>
+      <th>Tiempo de espera promedio (Segundos)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>217</td>
+      <td>165</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>200</td>
+      <td>415</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>216</td>
+      <td>230</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>155</td>
+      <td>192</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>37</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1246</th>
+      <td>191</td>
+      <td>116</td>
+    </tr>
+    <tr>
+      <th>1247</th>
+      <td>212</td>
+      <td>105</td>
+    </tr>
+    <tr>
+      <th>1248</th>
+      <td>210</td>
+      <td>232</td>
+    </tr>
+    <tr>
+      <th>1249</th>
+      <td>167</td>
+      <td>162</td>
+    </tr>
+    <tr>
+      <th>1250</th>
+      <td>12</td>
+      <td>58</td>
+    </tr>
+  </tbody>
+</table>
+<p>1228 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="warning admonition">
+<p class="admonition-title">Importante</p>
+<p>Despues del proceso de limpieza, observe que ahora nuestro dataframe tiene solamente 1228 registros debido a la eliminación de duplicados. Finalmente, una vez limpio nuestro dataframe, procedemos a guardarlo, y en el siguiente capítulo, haremos un análisis explotario de datos para detectar patrones y relaciones entre nuestras dos columnas.
+Recordemos que el objetivo es estudiar si existe influencia significativa entre el <strong>número de llamadas entrantes</strong> y <strong>el tiempo de espera.</strong></p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Guardar DataFrame en un archivo CSV</span>
+<span class="n">new_df</span><span class="p">[[</span><span class="s2">&quot;Llamadas entrantes&quot;</span><span class="p">,</span> <span class="s2">&quot;Tiempo de espera promedio (Segundos)&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;datos_call_center.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Profesor: Roberto De La Hoz</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_analisis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">📊 2. Análisis Exploratorio</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-del-datset">1.1 Carga del Datset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminacion-de-columnas-irrelevantes-conversion-de-datos-de-algunas-columnas">1.2 Eliminación de columnas irrelevantes, conversión de datos de algunas columnas.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creamos-un-nuevo-dataset-con-las-columnas-que-nos-interesa-estudiar">1.3 Creamos un nuevo dataset con las columnas que nos interesa estudiar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renombramos-las-columnas-de-nuestro-nuevo-dataframe">1.4 Renombramos las columnas de nuestro nuevo dataframe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminacion-de-filas-duplicadas">1.5 Eliminación de filas duplicadas</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto De La Hoz
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
