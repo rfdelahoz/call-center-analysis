@@ -528,9 +528,7 @@ Tenemos un máximo de 1575 llamadas y un máximo de espera de 1551 segundos.</p>
 0.25              122.75                                117.75
 0.50              177.00                                182.00
 0.75              233.00                                276.00
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valores extremos superiores:
+Valores extremos superiores:
       Llamadas entrantes  Tiempo de espera promedio (Segundos)
 41                   137                                   587
 183                  483                                   525
@@ -608,9 +606,9 @@ Index: []
 </section>
 <section id="diagrama-de-dispersion">
 <h3>2.4 Diagrama de dispersión<a class="headerlink" href="#diagrama-de-dispersion" title="Link to this heading">#</a></h3>
-<p>El diagrama de dispersión nos permite ver relaciones y detectar algunos <strong>patrones</strong> entre las dos variables. En este estudio tomaremos como</p>
+<p>El diagrama de dispersión nos permite ver relaciones y detectar algunos <strong>patrones</strong> entre las dos variables. En este estudio tomaremos <span class="math notranslate nohighlight">\(X\)</span> y <span class="math notranslate nohighlight">\(Y\)</span> como las siguientes variables:</p>
 <ul class="simple">
-<li><p>variable independiente <span class="math notranslate nohighlight">\(X =\)</span> <strong>Número de llamadas entrantes</strong></p></li>
+<li><p>Variable independiente <span class="math notranslate nohighlight">\(X =\)</span> <strong>Número de llamadas entrantes</strong></p></li>
 <li><p>Variable dependiente <span class="math notranslate nohighlight">\(Y=\)</span> <strong>Tiempo de espera promedio (Segundos)</strong></p></li>
 </ul>
 <div class="cell docutils container">
@@ -639,14 +637,14 @@ Index: []
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/f978a9f584f1782f5db56ae7e61fad7ba7954b7b2f9605fc0accbb8e8e1b4814.png" src="../_images/f978a9f584f1782f5db56ae7e61fad7ba7954b7b2f9605fc0accbb8e8e1b4814.png" />
+<img alt="../_images/cc0dc499c069df9b2933defb6c34125bf1cb47d2ef3c51f32247abd2ee1cd54b.png" src="../_images/cc0dc499c069df9b2933defb6c34125bf1cb47d2ef3c51f32247abd2ee1cd54b.png" />
 </div>
 </div>
 <p>Del gráfico anterior, podemos observar algún patrón o tendencia lineal positiva. Es decir, una tendencia lineal creciente.  Sin embargo, necesitamos cuantificar y medir este patrón, lo cuál se hará con una medida muy conocida, llamada:  <strong>coeficiente de correlación lineal</strong>.</p>
 </section>
 <section id="coeficiente-de-correlacion">
 <h3>2.5 Coeficiente de correlación<a class="headerlink" href="#coeficiente-de-correlacion" title="Link to this heading">#</a></h3>
-<p>Necesitamos medir la <strong>fuerza</strong>  de relación que existe entre nuestras variables de estudio. Por lo tanto, una manera de medir dicha fuerza, es utilizando el <strong>coeficiente de correlación</strong>. Esta fuerza, puede medirse en la siguientes escalas no negativas:</p>
+<p>Necesitamos medir la <strong>fuerza</strong>  de relación lineal que existe entre nuestras variables de estudio <span class="math notranslate nohighlight">\(X\)</span> y <span class="math notranslate nohighlight">\(Y\)</span>. Por lo tanto, una manera de hacer esto, es utilizando el <strong>coeficiente de correlación</strong>. Esta fuerza, puede medirse en la siguientes escalas no negativas:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(0&lt; r \leq 0.3\)</span> <strong>Correlación débil o nula</strong></p></li>
 <li><p><span class="math notranslate nohighlight">\( 0.3 &lt; r &lt; 0.7\)</span> <strong>Correlación moderada</strong></p></li>
@@ -723,6 +721,11 @@ Index: []
 Se dice que existe una regresión lineal entre dos variables continuas <span class="math notranslate nohighlight">\(X\)</span> y <span class="math notranslate nohighlight">\(Y\)</span> si existen constantes <span class="math notranslate nohighlight">\(\beta_{1}\)</span> y <span class="math notranslate nohighlight">\(\beta_{0}\)</span> tales que:</p>
 <div class="my-math math notranslate nohighlight">
 \[  Y= \beta_{1}X+ \beta_{0}  \]</div>
+<p>donde</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\beta_{0}\)</span> es llamado el <strong>intercepto</strong></p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta_{1}\)</span> es llamado la <strong>pendiente</strong>.</p></li>
+</ul>
 <p>Por lo tanto, el objetivo de nuestro estudio  de la relación lineal entre <span class="math notranslate nohighlight">\(X\)</span> y <span class="math notranslate nohighlight">\(Y\)</span> se reduciría al de  probar las siguientes hipótesis de una cola:</p>
 <div class="my-math math notranslate nohighlight">
 \[\begin{split}  H_{0}:  \beta_{1} =0  \\ 
